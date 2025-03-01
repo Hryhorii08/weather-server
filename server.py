@@ -8,7 +8,7 @@ TELEGRAM_BOT_TOKEN = "7788946008:AAGULYh-GIkpr-GA3ZA70ERdCAT6BcGNW-g"
 CHAT_ID = "-1002307069728"
 
 # 🌍 Функция для получения погоды
-def get_weather(city):
+def fetch_weather(city):
     geocode_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1&format=json"
     geocode_response = requests.get(geocode_url)
     geocode_data = geocode_response.json()
@@ -48,7 +48,6 @@ def send_telegram_message(message):
 
 # 🚀 API для получения погоды
 @app.route('/weather', methods=['POST'])
-def get_weather():
 def weather():
     data = request.get_json()
     city = data.get("city", "")
@@ -56,8 +55,7 @@ def weather():
     if not city:
         return jsonify({"error": "City is required"}), 400
 
-    return jsonify({"message": f"Город {city} получен сервером!"})
-    weather_data = get_weather(city)
+    weather_data = fetch_weather(city)
 
     if "error" not in weather_data:
         message = (
