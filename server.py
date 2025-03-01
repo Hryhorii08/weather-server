@@ -48,6 +48,7 @@ def send_telegram_message(message):
 
 # 🚀 API для получения погоды
 @app.route('/weather', methods=['POST'])
+def get_weather():
 def weather():
     data = request.get_json()
     city = data.get("city", "")
@@ -55,6 +56,7 @@ def weather():
     if not city:
         return jsonify({"error": "City is required"}), 400
 
+    return jsonify({"message": f"Город {city} получен сервером!"})
     weather_data = get_weather(city)
 
     if "error" not in weather_data:
